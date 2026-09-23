@@ -26,11 +26,6 @@ if (clerkSecretKey && clerkPublishableKey) {
     clerkMiddleware({
       secretKey: clerkSecretKey,
       publishableKey: clerkPublishableKey,
-      // Don't require auth on all routes - let routes handle it individually
-      onError: (err) => {
-        // eslint-disable-next-line no-console
-        console.error('Clerk middleware error:', err);
-      },
     }),
   );
 } else {
