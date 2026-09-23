@@ -1,0 +1,5 @@
+(library
+ (name pipeline_tests)
+ (libraries pipeline)
+ (inline_tests)
+ (preprocess (pps ppx_expect)))
