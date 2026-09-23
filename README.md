@@ -10,6 +10,10 @@
 </p>
 
 <p align="center">
+  <a href="https://vibeathon-g93k.vercel.app"><strong>▶ Try it live</strong></a>
+</p>
+
+<p align="center">
   <img src="https://img.shields.io/badge/%F0%9F%8F%86%20People's%20Choice-Princeton%20Vibe--a--Thon%202025-FF8F00?style=for-the-badge" alt="People's Choice, Princeton Vibe-a-Thon 2025" />
 </p>
 
