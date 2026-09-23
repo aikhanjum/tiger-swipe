@@ -37,7 +37,7 @@ If you need custom credentials:
 4. Create **OAuth 2.0 Client ID** credentials
 5. Copy the credentials to Clerk Dashboard
 
-Full details: See `CLERK_GOOGLE_OAUTH_INSTRUCTIONS.md`
+Full details: See `docs/setup/clerk-google-oauth.md`
 
 ### Step 3: Re-authenticate Users
 
@@ -163,5 +163,5 @@ Your app should now be pulling real emails from Gmail. If you're still seeing mo
 
 **Related Documentation**:
 
-- Full setup guide: `CLERK_GOOGLE_OAUTH_INSTRUCTIONS.md`
-- Gmail OAuth summary: `GMAIL_OAUTH_INTEGRATION_SUMMARY.md`
+- Full setup guide: `docs/setup/clerk-google-oauth.md`
+- Gmail OAuth summary: `docs/notes/gmail-oauth-summary.md`

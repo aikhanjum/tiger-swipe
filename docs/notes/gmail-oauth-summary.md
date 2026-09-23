@@ -10,14 +10,14 @@ This implementation adds Google OAuth integration to fetch Gmail emails, classif
 
 **Created:**
 
-- `CLERK_GOOGLE_OAUTH_INSTRUCTIONS.md` - Step-by-step setup guide for Clerk + Google OAuth
-- `TESTING_GUIDE.md` - Comprehensive testing instructions
-- `GMAIL_OAUTH_INTEGRATION_SUMMARY.md` - This file
+- `docs/setup/clerk-google-oauth.md` - Step-by-step setup guide for Clerk + Google OAuth
+- `docs/setup/testing.md` - Comprehensive testing instructions
+- `docs/notes/gmail-oauth-summary.md` - This file
 
 **Updated:**
 
 - `README.md` - Added detailed environment variable documentation and Gmail integration overview
-- `apps/server/CLERK_SETUP.md` - Enhanced with debugging guidance for token extraction
+- `docs/setup/clerk-server.md` - Enhanced with debugging guidance for token extraction
 
 ### 2. Code Improvements
 
@@ -203,7 +203,7 @@ GMAIL_USER_EMAIL=your@email.com
 
 ### 📋 Testing Instructions:
 
-See `TESTING_GUIDE.md` for complete step-by-step testing procedures.
+See `docs/setup/testing.md` for complete step-by-step testing procedures.
 
 ## Rollback Plan
 
@@ -219,11 +219,11 @@ To fully disable Gmail integration:
 
 ### Documentation:
 
-- `CLERK_GOOGLE_OAUTH_INSTRUCTIONS.md` - Setup guide
-- `TESTING_GUIDE.md` - Testing procedures
+- `docs/setup/clerk-google-oauth.md` - Setup guide
+- `docs/setup/testing.md` - Testing procedures
 - `README.md` - General setup
-- `apps/server/CLERK_SETUP.md` - Clerk-specific details
-- `apps/server/GMAIL_SETUP.md` - Server-side Gmail setup
+- `docs/setup/clerk-server.md` - Clerk-specific details
+- `docs/setup/gmail-server.md` - Server-side Gmail setup
 
 ### External Resources:
 
@@ -246,4 +246,4 @@ The Gmail OAuth integration is **implemented and ready for testing**. The system
 2. Debug Gmail integration without blocking development
 3. Deploy with confidence knowing fallbacks are in place
 
-**Next Step**: Follow the instructions in `CLERK_GOOGLE_OAUTH_INSTRUCTIONS.md` to configure Clerk, then use `TESTING_GUIDE.md` to test the integration!
+**Next Step**: Follow the instructions in `docs/setup/clerk-google-oauth.md` to configure Clerk, then use `docs/setup/testing.md` to test the integration!

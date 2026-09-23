@@ -252,10 +252,10 @@ When things go wrong, follow this debug flow:
 
 ## 📚 Related Documentation
 
-- **Setup Checklist**: `GMAIL_SETUP_CHECKLIST.md` (start here!)
-- **Quick Start**: `GMAIL_SETUP_QUICK_START.md`
-- **Full Instructions**: `CLERK_GOOGLE_OAUTH_INSTRUCTIONS.md`
-- **Summary**: `GMAIL_INTEGRATION_SUMMARY.md`
+- **Setup Checklist**: `docs/setup/gmail-checklist.md` (start here!)
+- **Quick Start**: `docs/setup/gmail-quick-start.md`
+- **Full Instructions**: `docs/setup/clerk-google-oauth.md`
+- **Summary**: `docs/notes/gmail-integration-summary.md`
 
 ---
 

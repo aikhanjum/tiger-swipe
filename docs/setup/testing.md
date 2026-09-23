@@ -6,7 +6,7 @@ This guide will help you test the end-to-end flow of Gmail integration with Clau
 
 Before testing, ensure you have:
 
-1. ✅ Configured Google OAuth in Clerk Dashboard with Gmail scope (see `CLERK_GOOGLE_OAUTH_INSTRUCTIONS.md`)
+1. ✅ Configured Google OAuth in Clerk Dashboard with Gmail scope (see `docs/setup/clerk-google-oauth.md`)
 2. ✅ Set up environment variables (see README.md)
 3. ✅ Both servers running:
    - Backend: `pnpm dev:server` (http://localhost:4000)
@@ -194,7 +194,7 @@ If Gmail integration isn't working:
 
 1. **Check Debug Logs**: The enhanced logging will show exactly where the token extraction is failing
 2. **Consult Clerk Docs**: Look for latest guidance on accessing OAuth provider tokens
-3. **Use Server-Side Gmail**: Configure Gmail API with refresh token (see `apps/server/GMAIL_SETUP.md`)
+3. **Use Server-Side Gmail**: Configure Gmail API with refresh token (see `docs/setup/gmail-server.md`)
 4. **Stick with Mock Data**: The system works perfectly well with curated mock data for development
 
 ## Reporting Issues

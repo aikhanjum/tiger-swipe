@@ -123,8 +123,8 @@ Added `checkGmailStatus()` function to the API client for easy status checking.
 
 ### Documentation Created:
 
-- `GMAIL_SETUP_QUICK_START.md` - Simple setup guide
-- `GMAIL_INTEGRATION_SUMMARY.md` - This file!
+- `docs/setup/gmail-quick-start.md` - Simple setup guide
+- `docs/notes/gmail-integration-summary.md` - This file!
 
 ---
 
@@ -175,9 +175,9 @@ This will tell you exactly what's misconfigured.
 
 ## 📚 Related Documentation
 
-- **Quick Start Guide**: `GMAIL_SETUP_QUICK_START.md` (start here!)
-- **Full Setup Instructions**: `CLERK_GOOGLE_OAUTH_INSTRUCTIONS.md`
-- **Original Gmail Integration Docs**: `GMAIL_OAUTH_INTEGRATION_SUMMARY.md`
+- **Quick Start Guide**: `docs/setup/gmail-quick-start.md` (start here!)
+- **Full Setup Instructions**: `docs/setup/clerk-google-oauth.md`
+- **Original Gmail Integration Docs**: `docs/notes/gmail-oauth-summary.md`
 
 ---
 

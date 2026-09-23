@@ -197,8 +197,8 @@ After applying the fixes:
 ## Need Help?
 
 Check these files for more details:
-- `GMAIL_OAUTH_INTEGRATION_SUMMARY.md` - Overview of the integration
-- `CLERK_GOOGLE_OAUTH_INSTRUCTIONS.md` - Clerk setup guide
+- `docs/notes/gmail-oauth-summary.md` - Overview of the integration
+- `docs/setup/clerk-google-oauth.md` - Clerk setup guide
 - `README.md` - General setup instructions
 
 Happy coding! 🚀

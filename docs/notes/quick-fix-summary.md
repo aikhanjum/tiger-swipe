@@ -139,7 +139,7 @@ Your server follows this priority order:
 
 1. ✅ Created `scripts/generate-refresh-token.js` - Interactive token generator
 2. ✅ Created `data/mockEmails.json` - 8 realistic sample emails with Google Forms
-3. ✅ Created `GMAIL_TOKEN_FIX.md` - Detailed troubleshooting guide
+3. ✅ Created `docs/notes/gmail-token-fix.md` - Detailed troubleshooting guide
 4. ✅ Updated `package.json` - Added `pnpm generate-gmail-token` command
 5. ✅ Created this summary document
 
@@ -158,9 +158,9 @@ Run `pnpm generate-gmail-token` to get your actual Gmail emails!
 ## ❓ Still Having Issues?
 
 Read the detailed guides:
-- `GMAIL_TOKEN_FIX.md` - Step-by-step troubleshooting
-- `GMAIL_OAUTH_INTEGRATION_SUMMARY.md` - Architecture overview
-- `CLERK_GOOGLE_OAUTH_INSTRUCTIONS.md` - Clerk setup (if you want to pursue that)
+- `docs/notes/gmail-token-fix.md` - Step-by-step troubleshooting
+- `docs/notes/gmail-oauth-summary.md` - Architecture overview
+- `docs/setup/clerk-google-oauth.md` - Clerk setup (if you want to pursue that)
 
 ## 💡 Pro Tips
 

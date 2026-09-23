@@ -1,147 +1,118 @@
-# TigerSwipe
+<p align="center">
+  <img src="vibeathon_tigerswipe_logo.png" alt="TigerSwipe logo" width="160" />
+</p>
 
-TigerSwipe delivers a Tinder-style queue of opportunities pulled from your inbox (mocked today) so you can swipe through clubs and events, open their application form instantly, and add accepted ones to Google Calendar through the MCP integration.
+<h1 align="center">TigerSwipe</h1>
+
+<p align="center">
+  <strong>Swipe through your inbox. Right for yes, left for no.</strong><br />
+  Every club and event buried in your Princeton email, turned into a deck of cards.
+</p>
+
+<p align="center">
+  <img src="https://img.shields.io/badge/%F0%9F%8F%86%20People's%20Choice-Princeton%20Vibe--a--Thon%202025-FF8F00?style=for-the-badge" alt="People's Choice, Princeton Vibe-a-Thon 2025" />
+</p>
+
+<p align="center">
+  <img src="https://img.shields.io/badge/React-18-61DAFB?logo=react&logoColor=white" />
+  <img src="https://img.shields.io/badge/TypeScript-5-3178C6?logo=typescript&logoColor=white" />
+  <img src="https://img.shields.io/badge/Express-4-000000?logo=express&logoColor=white" />
+  <img src="https://img.shields.io/badge/Claude-classification-D97757?logo=anthropic&logoColor=white" />
+  <img src="https://img.shields.io/badge/Clerk-Google%20OAuth-6C47FF?logo=clerk&logoColor=white" />
+</p>
+
+---
+
+## 🏆 People's Choice winner
+
+TigerSwipe won **People's Choice at the Princeton Vibe-a-Thon** (fall 2025), built in a single day by Princeton freshmen.
+
+## The problem
+
+Princeton students get dozens of listserv emails a day. Club recruitment, speaker events, info sessions, practices, socials. The good ones get lost under everything else, and by the time you find them the application is closed.
+
+## What TigerSwipe does
+
+1. **Sign in with Google.** TigerSwipe reads your inbox (read-only) through Clerk OAuth.
+2. **Claude sorts the noise.** Every email is classified into a club or an event, tagged by type (workshop, speaker, competition, social...) and by vibe (chill, high-energy, tight-knit, skill-building...).
+3. **Swipe.** Opportunities show up as a Tinder-style deck. Filter by events or clubs, swipe left to skip.
+4. **Swipe right to commit.** The application opens instantly, and accepted events land on your Google Calendar through an MCP calendar integration.
+
+## How it works
+
+```
+Gmail (OAuth, read-only)
+        │
+        ▼
+Express API ──► Claude classifier ──► typed EventCards (cached)
+        │                                   │
+        │                                   ▼
+        │                        React swipe deck (Framer Motion)
+        │                                   │ swipe right
+        ▼                                   ▼
+Google Calendar MCP  ◄──────────  POST /api/cards/:id/apply
+```
+
+- **Classification:** `apps/server/src/services/claudeClassifier.ts` prompts Claude for strict JSON, validates every field against allowed enums, and caches results so the same email is never classified twice.
+- **Three inbox modes:** per-user Gmail via Clerk OAuth (default), a single server-side inbox via refresh token, or bundled mock data for demos.
+- **Calendar:** `apps/server/src/services/googleCalendarMcp.ts` inserts accepted events through a Google Calendar MCP server.
 
 ## Stack
 
-- **pnpm** workspace (`apps/server`, `apps/web`)
-- **Express + Zod** API with mocked Gmail ingestion, Claude-powered classification, and the MCP calendar client
-- **Vite + React + Tailwind + Framer Motion** front-end with `react-tinder-card`
+| Layer    | Tech                                                            |
+| -------- | --------------------------------------------------------------- |
+| Frontend | Vite, React 18, TypeScript, Tailwind, Framer Motion, `react-tinder-card` |
+| Backend  | Express, Zod, `googleapis`                                      |
+| AI       | Claude (Anthropic Messages API)                                 |
+| Auth     | Clerk with Google OAuth (Gmail read-only scope)                 |
+| Tooling  | pnpm workspaces, Vitest, ESLint, Prettier, Vercel               |
 
-## Getting Started
-
-### 1. Install dependencies
+## Run it locally
 
 ```bash
 pnpm install
+cp .env.example .env      # fill in the three required keys
+pnpm dev:server           # API on http://localhost:4000
+pnpm dev:web              # app on http://localhost:5173
 ```
 
-### 2. Configure Environment Variables
+Only three variables are required: `CLERK_SECRET_KEY`, `VITE_CLERK_PUBLISHABLE_KEY`, and `CLAUDE_API_KEY`. Without Gmail credentials the app falls back to mock emails, so you can try the full swipe flow with no Google setup. Every variable is documented in [`.env.example`](.env.example).
 
-Create a `.env` file in the project root with the following variables:
+For real Gmail access, follow [docs/setup/clerk-google-oauth.md](docs/setup/clerk-google-oauth.md).
 
-**Required for Authentication:**
+### API
 
-```env
-# Get from https://dashboard.clerk.com
-CLERK_SECRET_KEY=sk_test_your_clerk_secret_key_here
-# Publishable key is used by both frontend and backend
-VITE_CLERK_PUBLISHABLE_KEY=pk_test_your_clerk_publishable_key_here
-# Alternative: You can also set CLERK_PUBLISHABLE_KEY for server-only use
-```
+| Method | Route                     | What it does                                        |
+| ------ | ------------------------- | --------------------------------------------------- |
+| GET    | `/api/cards?type=events\|clubs` | Classified cards for the swipe deck           |
+| POST   | `/api/cards/:id/apply`    | Records an application and adds the event to Calendar |
 
-**Required for Email Classification:**
-
-```env
-# Get from https://console.anthropic.com/
-CLAUDE_API_KEY=sk-ant-your_claude_api_key_here
-```
-
-**Optional (Server Configuration):**
-
-```env
-PORT=4000
-VITE_API_BASE_URL=http://localhost:4000
-VITE_APP_NAME=TigerSwipe
-CLAUDE_MODEL=claude-3-5-sonnet-20241022
-CLAUDE_CACHE_TTL_MS=900000
-CARD_CACHE_TTL_MS=300000
-MOCK_EMAIL_PATH=../../data/mockEmails.json
-```
-
-**Optional (Gmail API - Server-side access):**
-
-```env
-GMAIL_CLIENT_ID=
-GMAIL_CLIENT_SECRET=
-GMAIL_REFRESH_TOKEN=
-GMAIL_USER_EMAIL=
-GMAIL_MAX_RESULTS=50
-```
-
-**Optional (Calendar Integration):**
-
-```env
-MCP_CALENDAR_URL=
-MCP_CALENDAR_API_KEY=
-```
-
-### 3. Configure Google OAuth (for Gmail access)
-
-Follow the detailed instructions in `CLERK_GOOGLE_OAUTH_INSTRUCTIONS.md` to:
-
-- Set up Google OAuth in Clerk Dashboard
-- Add Gmail readonly scope
-- Enable Gmail API in Google Cloud Console
-- Configure OAuth consent screen
-
-### 4. Run the dev servers
-
-In separate terminals:
+### Tests
 
 ```bash
-pnpm dev:server   # http://localhost:4000
-pnpm dev:web      # http://localhost:5173
+pnpm --filter server test   # classifier + calendar MCP client
+pnpm --filter web test      # swipe deck smoke test
+pnpm -r lint
 ```
 
-### Environment Variables Reference
+## Repo layout
 
-| Variable                     | Description                                            | Required |
-| ---------------------------- | ------------------------------------------------------ | -------- |
-| `CLERK_SECRET_KEY`           | Clerk secret key for backend auth                      | ✅ Yes   |
-| `VITE_CLERK_PUBLISHABLE_KEY` | Clerk publishable key for frontend                     | ✅ Yes   |
-| `CLAUDE_API_KEY`             | Anthropic API key for email classification             | ✅ Yes   |
-| `PORT`                       | Express server port (default `4000`)                   | No       |
-| `VITE_API_BASE_URL`          | Backend API URL (default `http://localhost:4000`)      | No       |
-| `VITE_APP_NAME`              | App display name (default `TigerSwipe`)                | No       |
-| `CLAUDE_MODEL`               | Anthropic model (default `claude-3-5-sonnet-20241022`) | No       |
-| `CLAUDE_CACHE_TTL_MS`        | Claude response cache duration (default 15 min)        | No       |
-| `CARD_CACHE_TTL_MS`          | Card cache duration (default 5 min)                    | No       |
-| `MOCK_EMAIL_PATH`            | Path to mock email JSON file                           | No       |
-| `GMAIL_CLIENT_ID`            | Google OAuth client ID (server-side)                   | No       |
-| `GMAIL_CLIENT_SECRET`        | Google OAuth client secret (server-side)               | No       |
-| `GMAIL_REFRESH_TOKEN`        | Google OAuth refresh token (server-side)               | No       |
-| `GMAIL_USER_EMAIL`           | Gmail account email (server-side)                      | No       |
-| `GMAIL_MAX_RESULTS`          | Max emails to fetch (default 50)                       | No       |
-| `MCP_CALENDAR_URL`           | Google Calendar MCP server URL                         | No       |
-| `MCP_CALENDAR_API_KEY`       | MCP server API key                                     | No       |
-| `VITE_FEATURE_AUTO_APPLY`    | Enable auto-apply features (default `false`)           | No       |
-
-### API surface
-
-- `GET /api/cards?type=events|clubs` — returns classified cards ready for the deck UI
-- `POST /api/cards/:id/apply` — records a successful application and triggers the MCP calendar insert
-
-### Testing & linting
-
-```bash
-pnpm --filter server test   # classifier + MCP client
-pnpm --filter web test      # Tinder deck smoke test
-pnpm -r lint                # Runs ESLint in every workspace
+```
+apps/
+  server/   Express API, Gmail ingestion, Claude classifier, Calendar MCP
+  web/      React swipe deck, landing page, club application page
+data/       mock emails for demo mode
+docs/
+  setup/    Clerk, Google OAuth, Gmail, and testing guides
+  notes/    build notes from the hackathon
 ```
 
-## Docs
+## What's next
 
-- `docs/cursor/overview.md` — quick tour for future Cursor sessions
-- `docs/extension-notes.md` — outlines the browser-extension automation concept
-- `CLERK_GOOGLE_OAUTH_INSTRUCTIONS.md` — detailed Google OAuth setup guide
+- Persist swipe history so decks survive refreshes
+- One-tap applications through a browser extension ([notes](docs/notes/extension-notes.md))
+- Smarter ranking: learn from your swipes which clubs and events to show first
 
-## Gmail Integration
+## Team
 
-The app supports three modes for email data:
-
-1. **Clerk-based OAuth** (Recommended): Users sign in with Google, and the backend accesses their Gmail
-2. **Server-side Gmail**: Backend uses a refresh token to access a single Gmail account
-3. **Mock Data** (Fallback): Uses sample data from `data/mockEmails.json`
-
-Future steps include swapping the mock Gmail loader with real Gmail OAuth ingestion and persisting cards in storage so the swipe history survives refreshes. The current codebase is structured to make that upgrade straightforward.
-
-
-
-To get started:
-Install dependencies:
-pnpm install
-Copy .env.example to .env and set VITE_API_BASE_URL=http://localhost:4000
-Start dev servers:
-pnpm dev:server   # Terminal 1 - API on :4000
-pnpm dev:web      # Terminal 2 - Frontend on :5173
+Built at the Princeton Vibe-a-Thon by [Aikhan Jumashukurov](https://github.com/aikhanjum) and [Patrick Fu](https://github.com/trickfu).

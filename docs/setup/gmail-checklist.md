@@ -135,9 +135,9 @@ Choose one of these methods:
 
 ## 📚 Need More Help?
 
-- **Quick Start Guide**: `GMAIL_SETUP_QUICK_START.md`
-- **Full Instructions**: `CLERK_GOOGLE_OAUTH_INSTRUCTIONS.md`
-- **Technical Summary**: `GMAIL_INTEGRATION_SUMMARY.md`
+- **Quick Start Guide**: `docs/setup/gmail-quick-start.md`
+- **Full Instructions**: `docs/setup/clerk-google-oauth.md`
+- **Technical Summary**: `docs/notes/gmail-integration-summary.md`
 
 ---
 
