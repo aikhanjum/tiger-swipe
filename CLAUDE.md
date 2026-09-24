@@ -3,7 +3,7 @@
 Swipe-to-decide app for Princeton listserv email. People's Choice, Princeton Vibe-a-Thon 2025.
 Monorepo: `apps/web` (React/Vite PWA-to-be), `apps/server` (Express, auth, cards),
 `apps/pipeline` (OCaml 5 + Dream: ingestion, dedupe, later Gmail push).
-Live: https://vibeathon-g93k.vercel.app (frontend), https://tigerswipe-server.onrender.com (API).
+Live: https://tiger-swipe.vercel.app (frontend), https://tigerswipe-server.onrender.com (API).
 
 ## Rules for apps/pipeline (OCaml) — agreed with Aikhan, enforce them
 

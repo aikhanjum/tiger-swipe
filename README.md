@@ -10,7 +10,7 @@
 </p>
 
 <p align="center">
-  <a href="https://vibeathon-g93k.vercel.app"><strong>▶ Try it live</strong></a>
+  <a href="https://tiger-swipe.vercel.app"><strong>▶ Try it live</strong></a>
 </p>
 
 <p align="center">
