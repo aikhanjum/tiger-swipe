@@ -1,0 +1,43 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  app:
+    name: Web + API
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - name: Build web
+        run: pnpm --filter web build
+      - name: Build API
+        run: pnpm --filter server build
+      - name: Test web
+        run: pnpm --filter web test -- --run
+      - name: Test API
+        run: pnpm --filter server test
+
+  pipeline:
+    name: OCaml pipeline
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: apps/pipeline
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ocaml/setup-ocaml@v3
+        with:
+          ocaml-compiler: "5.2"
+      - run: opam install . --deps-only -y
+      - name: Build
+        run: opam exec -- dune build
+      # Switch this to `dune test` once the dedupe implementations land.

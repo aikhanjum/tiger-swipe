@@ -14,15 +14,21 @@
 </p>
 
 <p align="center">
+  <img src="docs/images/landing.jpg" alt="TigerSwipe landing page" width="820" />
+</p>
+
+<p align="center">
   <img src="https://img.shields.io/badge/%F0%9F%8F%86%20People's%20Choice-Princeton%20Vibe--a--Thon%202025-FF8F00?style=for-the-badge" alt="People's Choice, Princeton Vibe-a-Thon 2025" />
 </p>
 
 <p align="center">
+  <a href="https://github.com/aikhanjum/tiger-swipe/actions/workflows/ci.yml"><img src="https://github.com/aikhanjum/tiger-swipe/actions/workflows/ci.yml/badge.svg" alt="CI" /></a>
   <img src="https://img.shields.io/badge/React-18-61DAFB?logo=react&logoColor=white" />
   <img src="https://img.shields.io/badge/TypeScript-5-3178C6?logo=typescript&logoColor=white" />
   <img src="https://img.shields.io/badge/Express-4-000000?logo=express&logoColor=white" />
   <img src="https://img.shields.io/badge/Claude-classification-D97757?logo=anthropic&logoColor=white" />
   <img src="https://img.shields.io/badge/Clerk-Google%20OAuth-6C47FF?logo=clerk&logoColor=white" />
+  <img src="https://img.shields.io/badge/OCaml-5-EC6813?logo=ocaml&logoColor=white" />
 </p>
 
 ---
@@ -61,6 +67,21 @@ Google Calendar MCP  ◄──────────  POST /api/cards/:id/appl
 - **Three inbox modes:** per-user Gmail via Clerk OAuth (default), a single server-side inbox via refresh token, or bundled mock data for demos.
 - **Calendar:** `apps/server/src/services/googleCalendarMcp.ts` inserts accepted events through a Google Calendar MCP server.
 
+## The OCaml pipeline (in progress)
+
+Princeton listservs repost the same announcement to every residential college, so one hackathon shows up as five nearly identical emails with different headers and footers. TigerSwipe is getting a dedicated ingestion service in **OCaml 5** to collapse those into one card before anything reaches the classifier.
+
+```
+emails ──► normalize ──► word 3-shingles ──► pairwise Jaccard ≥ 0.6 ──► union-find ──► one card per cluster
+```
+
+- **Near-duplicate detection:** each email becomes a set of overlapping word triples, and two emails match when their sets overlap by 60% or more. Union-find makes grouping transitive, so a chain of forwards still lands in one cluster.
+- **Canonical choice:** the earliest copy wins; the rest become "also posted to" metadata.
+- **Tests:** written as Jane Street style `ppx_expect` expect tests, including real forwarded-listserv fixtures.
+- **Next:** MinHash with locality-sensitive hashing so dedupe stays fast as the inbox grows, then Gmail push notifications (Pub/Sub) straight into this service.
+
+Code: [`apps/pipeline`](apps/pipeline). Interfaces live in the `.mli` files.
+
 ## Stack
 
 | Layer    | Tech                                                            |
@@ -69,7 +90,8 @@ Google Calendar MCP  ◄──────────  POST /api/cards/:id/appl
 | Backend  | Express, Zod, `googleapis`                                      |
 | AI       | Claude (Anthropic Messages API)                                 |
 | Auth     | Clerk with Google OAuth (Gmail read-only scope)                 |
-| Tooling  | pnpm workspaces, Vitest, ESLint, Prettier, Vercel               |
+| Pipeline | OCaml 5, Dream, `ppx_expect` (in progress)                      |
+| Tooling  | pnpm workspaces, Vitest, ESLint, Prettier, GitHub Actions, Vercel, Render |
 
 ## Run it locally
 
@@ -105,17 +127,23 @@ pnpm -r lint
 apps/
   server/   Express API, Gmail ingestion, Claude classifier, Calendar MCP
   web/      React swipe deck, landing page, club application page
+  pipeline/ OCaml ingestion + near-duplicate detection (in progress)
 data/       mock emails for demo mode
 docs/
   setup/    Clerk, Google OAuth, Gmail, and testing guides
   notes/    build notes from the hackathon
 ```
 
-## What's next
+## Roadmap
 
-- Persist swipe history so decks survive refreshes
-- One-tap applications through a browser extension ([notes](docs/notes/extension-notes.md))
-- Smarter ranking: learn from your swipes which clubs and events to show first
+- [x] Swipe deck with Claude classification and Google Calendar sync (hackathon build)
+- [x] Production deploys: Vercel (web) and Render (API), with CI on every push
+- [ ] OCaml dedupe pipeline: shingling, Jaccard, union-find ([`apps/pipeline`](apps/pipeline))
+- [ ] Installable phone app (PWA) and a redesigned swipe deck
+- [ ] Postgres for cards and swipe history
+- [ ] Gmail push notifications for real-time cards
+- [ ] Ranking that learns from your swipes
+- [ ] One-tap applications through a browser extension ([notes](docs/notes/extension-notes.md))
 
 ## Team
 
